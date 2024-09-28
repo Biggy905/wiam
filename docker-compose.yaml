@@ -1,0 +1,67 @@
+version: "3.8"
+
+services:
+  wiam-nginx:
+    container_name: wiam-nginx
+    image: nginx:stable-alpine
+    volumes:
+      - ./:/app
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "${REST_API_PORT}:80"
+    depends_on:
+      - wiam-php-fpm
+    restart: unless-stopped
+
+  wiam-php-fpm:
+    container_name: wiam-php-fpm
+    build:
+      context: .
+      dockerfile: docker/php/fpm/Dockerfile
+    volumes:
+      - ./:/app
+    depends_on:
+      - wiam-postgres
+
+  wiam-php-cli:
+    container_name: wiam-php-cli
+    build:
+      context: .
+      dockerfile: docker/php/cli/Dockerfile
+    volumes:
+      - ./:/app
+    depends_on:
+      - wiam-postgres
+
+  wiam-php-order:
+    container_name: wiam-php-order
+    build:
+      context: .
+      dockerfile: docker/php/cli/Dockerfile
+    command: php /app/src/yii order-delay/start
+    tty: true
+    volumes:
+      - ./:/app
+    depends_on:
+      - wiam-postgres
+
+  wiam-postgres:
+    container_name: wiam_postgres
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - wiam-postgres-db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+networks:
+  default:
+    external: true
+    name: wiam-network
+
+volumes:
+  wiam-postgres-db-data:

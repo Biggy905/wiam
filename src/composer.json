@@ -1,0 +1,67 @@
+{
+  "name": "biggy905/wiam",
+  "description": "ТЗ для компании Wiam Group",
+  "keywords": ["yii2", "framework"],
+  "type": "project",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://github.com/yiisoft/yii2/issues?state=open",
+    "forum": "https://www.yiiframework.com/forum/",
+    "wiki": "https://www.yiiframework.com/wiki/",
+    "irc": "irc://irc.freenode.net/yii",
+    "source": "https://github.com/yiisoft/yii2"
+  },
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=8.2",
+    "yiisoft/yii2": "~2.0.51",
+    "vlucas/phpdotenv": "*"
+  },
+  "config": {
+    "allow-plugins": {
+      "yiisoft/yii2-composer" : true
+    },
+    "process-timeout": 1800,
+    "fxp-asset": {
+      "enabled": false
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "yii\\composer\\Installer::postInstall"
+    ],
+    "post-create-project-cmd": [
+      "yii\\composer\\Installer::postCreateProject",
+      "yii\\composer\\Installer::postInstall"
+    ]
+  },
+  "extra": {
+    "yii\\composer\\Installer::postCreateProject": {
+      "setPermission": [
+        {
+          "runtime": "0777",
+          "public/assets": "0777",
+          "yii": "0755"
+        }
+      ]
+    },
+    "yii\\composer\\Installer::postInstall": {
+      "generateCookieValidationKey": [
+        "config/main.php"
+      ]
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "api\\": "api",
+      "common\\": "common",
+      "console\\": "console"
+    }
+  }
+}
