@@ -1,0 +1,46 @@
+{
+	"info": {
+		"_postman_id": "335e91bd-9f0d-4bf9-8b59-b1647b9af3d5",
+		"name": "WIAM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13986180"
+	},
+	"item": [
+		{
+			"name": "REQUEST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\": 5,\n    \"amount\": 47000,\n    \"term\": 5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4500/requests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4500",
+					"path": [
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PROCESSOR",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
